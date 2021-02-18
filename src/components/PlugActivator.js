@@ -11,7 +11,7 @@ const PlugActivator = (props) => {
       "/home/pi/rcswitch-pi/send " +
         props.plug.systemCode +
         " " +
-        (props.plug.unitCode.charCodeAt(0) - 64) +
+        props.plug.unitCode +
         " " +
         event.target.value,
       function (err, stdout, stderr) {
