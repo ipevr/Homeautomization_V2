@@ -5,6 +5,7 @@ import Header from "./Header";
 import PlugList from "./PlugList";
 import PlugCreate from "./PlugCreate";
 import PlugEdit from "./PlugEdit";
+import PlugDelete from "./PlugDelete";
 
 class App extends React.Component {
   render() {
@@ -16,7 +17,9 @@ class App extends React.Component {
             <Switch>
               <Route path="/" exact component={PlugList} />
               <Route path="/create" exact component={PlugCreate} />
-              <Route path="/edit" exact component={PlugEdit} />
+              <Route path="/:modify" exact component={PlugList} />
+              <Route path="/edit/:id" exact component={PlugEdit} />
+              <Route path="/delete/:id" exact component={PlugDelete} />
             </Switch>
           </div>
         </Router>

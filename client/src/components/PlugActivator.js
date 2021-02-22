@@ -3,8 +3,11 @@ import { Button } from "react-bootstrap";
 import plugs from "../apis/plugs";
 
 class PlugActivator extends React.Component {
-  onButtonClick = (event) => {
-    plugs.post("/switch", { plug: this.props.plug, value: event.target.value });
+  onButtonClick = async (event) => {
+    await plugs.post("/switch", {
+      plug: this.props.plug,
+      value: event.target.value,
+    });
   };
 
   render() {

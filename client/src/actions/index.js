@@ -17,7 +17,7 @@ export const createPlug = (formValues) => async (dispatch) => {
 
 export const fetchPlug = (id) => async (dispatch) => {
   const response = await plugs.get(`/plugs/${id}`);
-
+  console.log(response.data);
   dispatch({ type: FETCH_PLUG, payload: response.data });
 };
 
@@ -31,7 +31,7 @@ export const editPlug = (id, formValues) => async (dispatch) => {
   const response = await plugs.patch(`/plugs/${id}`, { ...formValues });
 
   dispatch({ type: EDIT_PLUG, payload: response.data });
-  history.push("/");
+  history.push("/modify");
 };
 
 export const deletePlug = (id) => async (dispatch) => {

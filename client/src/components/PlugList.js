@@ -3,14 +3,22 @@ import { Container, ListGroup } from "react-bootstrap";
 import { connect } from "react-redux";
 import { fetchPlugs } from "../actions";
 import PlugActivator from "./PlugActivator";
+import PlugModifier from "./PlugModifier";
 
 class PlugList extends React.Component {
   componentDidMount() {
     this.props.fetchPlugs();
   }
 
+  renderButtons(plug) {
+    if (!this.props.match.params.modify) {
+      return <PlugActivator plug={plug} />;
+    } else {
+      return <PlugModifier plug={plug} />;
+    }
+  }
+
   renderList() {
-    console.log(this.props.plugs);
     return this.props.plugs.map((plug) => {
       return (
         <ListGroup.Item
@@ -18,7 +26,7 @@ class PlugList extends React.Component {
           className="d-flex align-items-center justify-content-between pr-0"
         >
           <h4>{plug.title}</h4>
-          <PlugActivator plug={plug} />
+          {this.renderButtons(plug)}
         </ListGroup.Item>
       );
     });

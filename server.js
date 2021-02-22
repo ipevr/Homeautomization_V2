@@ -14,26 +14,48 @@ const getNextId = (data) => {
   return highestId + 1;
 };
 
+const getData = () => {
+  const rawdata = fs.readFileSync("./db.json");
+  const data = JSON.parse(rawdata);
+  return data;
+};
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app
   .route("/plugs")
   .get((req, res) => {
-    console.log("get plugs request");
-    const rawdata = fs.readFileSync("./db.json");
-    const data = JSON.parse(rawdata);
-    res.send(data.plugs);
+    res.send(getData().plugs);
   })
   .post((req, res) => {
     const newPlug = req.body;
-    const rawdata = fs.readFileSync("./db.json");
-    const data = JSON.parse(rawdata);
+    const data = getData();
     const newId = getNextId(data.plugs);
     newPlug.id = newId;
     data.plugs.push(newPlug);
     fs.writeFileSync("./db.json", JSON.stringify(data));
     res.send(newPlug);
+  });
+
+app
+  .route("/plugs/:id")
+  .get((req, res) => {
+    const data = getData();
+    const plug = data.plugs.find((plug) => {
+      return plug.id.toString() === req.params.id;
+    });
+    res.send(plug);
+  })
+  .patch((req, res) => {
+    const plugModified = req.body;
+    plugModified.id = parseInt(req.params.id);
+    const data = getData();
+    data.plugs = data.plugs.map((plug) => {
+      return plug.id === plugModified.id ? plugModified : plug;
+    });
+    fs.writeFileSync("./db.json", JSON.stringify(data));
+    res.send(plugModified);
   });
 
 app.post("/switch", (req, res) => {
@@ -43,14 +65,16 @@ app.post("/switch", (req, res) => {
     (err, stdout, stderr) => {
       if (err) {
         console.log("Something went wrong: ", err);
+        res.send(err);
       }
       if (stderr) {
         console.log("stderr: ", stderr);
+        res.send(stderr);
       }
       console.log("stdout: ", stdout);
+      res.send(sdtout);
     }
   );
-  res.send("success");
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}`));

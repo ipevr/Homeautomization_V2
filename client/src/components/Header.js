@@ -18,7 +18,7 @@ function Header() {
             <Link to="/create" className="nav-link active">
               <Nav.Item>Create</Nav.Item>
             </Link>
-            <Link to="/edit" className="nav-link active">
+            <Link to="/modify" className="nav-link active">
               <Nav.Item>Edit</Nav.Item>
             </Link>
           </Nav>
