@@ -72,7 +72,7 @@ app.post("/switch", (req, res) => {
         res.send(stderr);
       }
       console.log("stdout: ", stdout);
-      res.send(sdtout);
+      res.send(stdout);
     }
   );
 });
