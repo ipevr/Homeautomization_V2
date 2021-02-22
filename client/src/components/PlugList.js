@@ -10,7 +10,7 @@ class PlugList extends React.Component {
   }
 
   renderList() {
-    console.log(this.props);
+    console.log(this.props.plugs);
     return this.props.plugs.map((plug) => {
       return (
         <ListGroup.Item

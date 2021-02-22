@@ -12,7 +12,6 @@ export const createPlug = (formValues) => async (dispatch) => {
   const response = await plugs.post("/plugs", { ...formValues });
 
   dispatch({ type: CREATE_PLUG, payload: response.data });
-  console.log(history);
   history.push("/");
 };
 
