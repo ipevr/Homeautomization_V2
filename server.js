@@ -38,10 +38,19 @@ app
 
 app.post("/switch", (req, res) => {
   const { systemCode, unitCode } = req.body.plug;
-  console.log(
-    `Send: /home/pi/rcswitch-pi/send ${systemCode} ${unitCode} ${req.body.value}`
+  exec(
+    `/home/pi/rcswitch-pi/send ${systemCode} ${unitCode} ${req.body.value}`,
+    (err, stdout, stderr) => {
+      if (err) {
+        console.log("Something went wrong: ", err);
+      }
+      if (stderr) {
+        console.log("stderr: ", stderr);
+      }
+      console.log("stdout: ", stdout);
+    }
   );
-  exec(`/home/pi/rcswitch-pi/send ${systemCode} ${unitCode} ${req.body.value}`);
+  res.send("success");
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
