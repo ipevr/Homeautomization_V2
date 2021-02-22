@@ -8,8 +8,12 @@ const port = process.env.PORT || 5000;
 const rawdata = fs.readFileSync("./db.json");
 const data = JSON.parse(rawdata);
 
-const getNextId = (data) => {
-  const ids = data.map((item) => item.id);
+const getNextId = (plugs) => {
+  if (plugs.length === 0) {
+    return 1;
+  }
+
+  const ids = plugs.map((item) => item.id);
   const highestId = Math.max(...ids);
   return highestId + 1;
 };
