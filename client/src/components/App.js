@@ -2,10 +2,10 @@ import React from "react";
 import { Router, Route, Switch } from "react-router-dom";
 import history from "../history";
 import Header from "./Header";
-import PlugList from "./Plugs/PlugList";
-import PlugCreate from "./Plugs/PlugCreate";
-import PlugEdit from "./Plugs/PlugEdit";
-import PlugDelete from "./Plugs/PlugDelete";
+import PlugList from "./plugs/PlugList";
+import PlugCreate from "./plugs/PlugCreate";
+import PlugEdit from "./plugs/PlugEdit";
+import PlugDelete from "./plugs/PlugDelete";
 
 class App extends React.Component {
   render() {
