@@ -12,12 +12,12 @@ export const createPlug = (formValues) => async (dispatch) => {
   const response = await plugs.post("/plugs", { ...formValues });
 
   dispatch({ type: CREATE_PLUG, payload: response.data });
-  history.push("/");
+  history.push("/plugs");
 };
 
 export const fetchPlug = (id) => async (dispatch) => {
   const response = await plugs.get(`/plugs/${id}`);
-  console.log(response.data);
+
   dispatch({ type: FETCH_PLUG, payload: response.data });
 };
 
@@ -31,12 +31,12 @@ export const editPlug = (id, formValues) => async (dispatch) => {
   const response = await plugs.patch(`/plugs/${id}`, { ...formValues });
 
   dispatch({ type: EDIT_PLUG, payload: response.data });
-  history.push("/modify");
+  history.push("/plugs/modify");
 };
 
 export const deletePlug = (id) => async (dispatch) => {
-  await plugs.delete(`/streams/${id}`);
+  await plugs.delete(`/plugs/${id}`);
 
   dispatch({ type: DELETE_PLUG, payload: id });
-  history.push("/");
+  history.push("/plugs/modify");
 };

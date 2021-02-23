@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { createPlug } from "../actions";
+import { createPlug } from "../../actions";
 import PlugForm from "./PlugForm";
 
 class PlugCreate extends React.Component {

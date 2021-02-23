@@ -1,7 +1,7 @@
 import _ from "lodash";
 import React from "react";
 import { connect } from "react-redux";
-import { fetchPlug, editPlug } from "../actions/index";
+import { fetchPlug, editPlug } from "../../actions";
 import PlugForm from "./PlugForm";
 
 class PlugEdit extends React.Component {

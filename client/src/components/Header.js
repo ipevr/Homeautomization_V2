@@ -12,14 +12,14 @@ function Header() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <Link to="/" className="nav-link active">
+            <Link to="/plugs" className="nav-link active">
               <Nav.Item>List</Nav.Item>
             </Link>
-            <Link to="/create" className="nav-link active">
+            <Link to="/plugs/create" className="nav-link active">
               <Nav.Item>Create</Nav.Item>
             </Link>
-            <Link to="/modify" className="nav-link active">
-              <Nav.Item>Edit</Nav.Item>
+            <Link to="/plugs/modify" className="nav-link active">
+              <Nav.Item>Modify</Nav.Item>
             </Link>
           </Nav>
         </Navbar.Collapse>

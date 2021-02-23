@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, ListGroup } from "react-bootstrap";
 import { connect } from "react-redux";
-import { fetchPlugs } from "../actions";
+import { fetchPlugs } from "../../actions";
 import PlugActivator from "./PlugActivator";
 import PlugModifier from "./PlugModifier";
 

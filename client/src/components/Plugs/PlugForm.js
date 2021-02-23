@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Button } from "react-bootstrap";
 import { Field, reduxForm } from "redux-form";
-import validate from "./validate";
+import validate from "../validate";
 
 class PlugForm extends React.Component {
   renderInput = ({ input, label }) => {

@@ -55,11 +55,18 @@ app
     const plugModified = req.body;
     plugModified.id = parseInt(req.params.id);
     const data = getData();
-    data.plugs = data.plugs.map((plug) => {
-      return plug.id === plugModified.id ? plugModified : plug;
-    });
+    data.plugs = data.plugs.map((plug) =>
+      plug.id === plugModified.id ? plugModified : plug
+    );
     fs.writeFileSync("./db.json", JSON.stringify(data));
     res.send(plugModified);
+  })
+  .delete((req, res) => {
+    const id = req.params.id;
+    const data = getData();
+    data.plugs = data.plugs.filter((plug) => plug.id.toString() !== id);
+    fs.writeFileSync("./db.json", JSON.stringify(data));
+    res.send(data.plugs);
   });
 
 app.post("/switch", (req, res) => {

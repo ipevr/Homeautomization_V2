@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "react-bootstrap";
-import plugs from "../apis/plugs";
+import plugs from "../../apis/plugs";
 
 class PlugActivator extends React.Component {
   onButtonClick = async (event) => {

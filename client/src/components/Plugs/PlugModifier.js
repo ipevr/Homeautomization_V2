@@ -6,12 +6,12 @@ class PlugModifier extends React.Component {
   render() {
     return (
       <div>
-        <Link to={`/edit/${this.props.plug.id}`}>
+        <Link to={`/plugs/edit/${this.props.plug.id}`}>
           <Button variant="primary" size="lg" className="ml-3">
             Edit
           </Button>
         </Link>
-        <Link to={`/delete/${this.props.plug.id}`}>
+        <Link to={`/plugs/delete/${this.props.plug.id}`}>
           <Button variant="danger" size="lg" className="ml-3">
             Delete
           </Button>
