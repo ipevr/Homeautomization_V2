@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, ListGroup } from "react-bootstrap";
+import { Container, ListGroup, Row, Col } from "react-bootstrap";
 import { connect } from "react-redux";
 import { fetchPlugs } from "../../actions";
 import PlugActivator from "./PlugActivator";
@@ -21,12 +21,13 @@ class PlugList extends React.Component {
   renderList() {
     return this.props.plugs.map((plug) => {
       return (
-        <ListGroup.Item
-          key={plug.id}
-          className="d-flex align-items-center justify-content-between pr-0"
-        >
-          <h4>{plug.title}</h4>
-          {this.renderButtons(plug)}
+        <ListGroup.Item key={plug.id} className="pr-0">
+          <Row>
+            <Col sm="8">
+              <h4>{plug.title}</h4>
+            </Col>
+            {this.renderButtons(plug)}
+          </Row>
         </ListGroup.Item>
       );
     });

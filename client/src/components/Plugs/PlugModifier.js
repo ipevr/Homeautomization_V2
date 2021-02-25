@@ -1,22 +1,27 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { Button } from "react-bootstrap";
+import history from "../../history";
+import ButtonGroup from "../ButtonGroup";
 
 class PlugModifier extends React.Component {
+  onButtonClick = (event) => {
+    if (event.target.value === "edit") {
+      history.push(`/plugs/edit/${this.props.plug.id}`);
+    } else {
+      history.push(`/plugs/delete/${this.props.plug.id}`);
+    }
+  };
+
   render() {
+    const buttonProps = [
+      { title: "Edit", value: "edit", variant: "primary" },
+      { title: "Delete", value: "delete", variant: "danger" },
+    ];
+
     return (
-      <div>
-        <Link to={`/plugs/edit/${this.props.plug.id}`}>
-          <Button variant="primary" size="lg" className="ml-3">
-            Edit
-          </Button>
-        </Link>
-        <Link to={`/plugs/delete/${this.props.plug.id}`}>
-          <Button variant="danger" size="lg" className="ml-3">
-            Delete
-          </Button>
-        </Link>
-      </div>
+      <ButtonGroup
+        onClick={this.onButtonClick}
+        buttonProps={buttonProps}
+      ></ButtonGroup>
     );
   }
 }

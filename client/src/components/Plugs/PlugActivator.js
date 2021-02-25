@@ -1,6 +1,6 @@
 import React from "react";
-import { Button } from "react-bootstrap";
 import plugs from "../../apis/plugs";
+import ButtonGroup from "../ButtonGroup";
 
 class PlugActivator extends React.Component {
   onButtonClick = async (event) => {
@@ -11,27 +11,16 @@ class PlugActivator extends React.Component {
   };
 
   render() {
+    const buttonProps = [
+      { title: "On", value: "1", variant: "success" },
+      { title: "Off", value: "0", variant: "danger" },
+    ];
+
     return (
-      <div>
-        <Button
-          onClick={this.onButtonClick}
-          value="1"
-          variant="success"
-          size="lg"
-          className="ml-3"
-        >
-          On
-        </Button>
-        <Button
-          onClick={this.onButtonClick}
-          value="0"
-          variant="danger"
-          size="lg"
-          className="ml-3"
-        >
-          Off
-        </Button>
-      </div>
+      <ButtonGroup
+        onClick={this.onButtonClick}
+        buttonProps={buttonProps}
+      ></ButtonGroup>
     );
   }
 }

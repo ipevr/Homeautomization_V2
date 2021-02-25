@@ -22,9 +22,9 @@ class PlugDelete extends React.Component {
   renderActions() {
     return (
       <React.Fragment>
-        <Link to="/plugs/modify">
-          <Button variant="secondary">Cancel</Button>
-        </Link>
+        <Button as={Link} to="/plugs/modify" variant="secondary">
+          Cancel
+        </Button>
         <Button variant="danger" onClick={this.onConfirm}>
           Delete
         </Button>

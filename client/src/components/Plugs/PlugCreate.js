@@ -12,7 +12,7 @@ class PlugCreate extends React.Component {
     return (
       <div className="container m-3">
         <h3>Create a Plug</h3>
-        <PlugForm onSubmit={this.onSubmit} />
+        <PlugForm backLink="/plugs" onSubmit={this.onSubmit} />
       </div>
     );
   }

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import { Field, reduxForm } from "redux-form";
 import validate from "../validate";
@@ -33,6 +34,15 @@ class PlugForm extends React.Component {
         />
         <Button variant="primary" size="lg" type="submit">
           Submit
+        </Button>
+        <Button
+          as={Link}
+          to={this.props.backLink}
+          variant="secondary"
+          size="lg"
+          className="ml-3"
+        >
+          Back
         </Button>
       </Form>
     );

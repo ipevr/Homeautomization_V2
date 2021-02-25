@@ -22,6 +22,7 @@ class PlugEdit extends React.Component {
       <div className="container m-3">
         <h3>Edit a Plug</h3>
         <PlugForm
+          backLink="/plugs/modify"
           initialValues={_.pick(this.props.plug, [
             "title",
             "systemCode",
