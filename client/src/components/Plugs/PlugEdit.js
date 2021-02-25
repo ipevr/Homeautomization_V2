@@ -2,7 +2,8 @@ import _ from "lodash";
 import React from "react";
 import { connect } from "react-redux";
 import { fetchPlug, editPlug } from "../../actions";
-import PlugForm from "./PlugForm";
+import { Container } from "react-bootstrap";
+import InputForm from "../InputForm";
 
 class PlugEdit extends React.Component {
   componentDidMount() {
@@ -18,19 +19,26 @@ class PlugEdit extends React.Component {
       return <div>Loading...</div>;
     }
 
+    const inputFields = [
+      { name: "title", label: "Edit Title" },
+      { name: "systemCode", label: "Edit System Code" },
+      { name: "unitCode", label: "Edit Unit Code" },
+    ];
+
     return (
-      <div className="container m-3">
+      <Container className="m-3">
         <h3>Edit a Plug</h3>
-        <PlugForm
+        <InputForm
           backLink="/plugs/modify"
           initialValues={_.pick(this.props.plug, [
             "title",
             "systemCode",
             "unitCode",
           ])}
+          inputFields={inputFields}
           onSubmit={this.onSubmit}
         />
-      </div>
+      </Container>
     );
   }
 }

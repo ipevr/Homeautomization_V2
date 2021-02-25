@@ -1,7 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import { createPlug } from "../../actions";
-import PlugForm from "./PlugForm";
+import { Container } from "react-bootstrap";
+import InputForm from "../InputForm";
 
 class PlugCreate extends React.Component {
   onSubmit = (formValue) => {
@@ -9,11 +10,21 @@ class PlugCreate extends React.Component {
   };
 
   render() {
+    const inputFields = [
+      { name: "title", label: "Enter Title" },
+      { name: "systemCode", label: "Enter System Code" },
+      { name: "unitCode", label: "Enter Unit Code" },
+    ];
+
     return (
-      <div className="container m-3">
+      <Container className="m-3">
         <h3>Create a Plug</h3>
-        <PlugForm backLink="/plugs" onSubmit={this.onSubmit} />
-      </div>
+        <InputForm
+          backLink="/plugs"
+          inputFields={inputFields}
+          onSubmit={this.onSubmit}
+        />
+      </Container>
     );
   }
 }

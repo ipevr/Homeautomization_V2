@@ -19,18 +19,16 @@ class PlugList extends React.Component {
   }
 
   renderList() {
-    return this.props.plugs.map((plug) => {
-      return (
-        <ListGroup.Item key={plug.id} className="pr-0">
-          <Row>
-            <Col sm="8">
-              <h4>{plug.title}</h4>
-            </Col>
-            {this.renderButtons(plug)}
-          </Row>
-        </ListGroup.Item>
-      );
-    });
+    return this.props.plugs.map((plug) => (
+      <ListGroup.Item key={plug.id} className="pr-0">
+        <Row>
+          <Col sm="8">
+            <h4>{plug.title}</h4>
+          </Col>
+          {this.renderButtons(plug)}
+        </Row>
+      </ListGroup.Item>
+    ));
   }
 
   render() {

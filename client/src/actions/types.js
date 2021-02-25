@@ -3,3 +3,9 @@ export const FETCH_PLUG = "FETCH_PLUG";
 export const FETCH_PLUGS = "FETCH_PLUGS";
 export const EDIT_PLUG = "EDIT_PLUG";
 export const DELETE_PLUG = "DELETE_PLUG";
+
+export const CREATE_CATEGORY = "CREATE_CATEGORY";
+export const FETCH_CATEGORY = "FETCH_CATEGORY";
+export const FETCH_CATEGORIES = "FETCH_CATEGORIES";
+export const EDIT_CATEGORY = "EDIT_CATEGORY";
+export const DELETE_CATEGORY = "DELETE_CATEGORY";

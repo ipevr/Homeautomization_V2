@@ -1,10 +1,10 @@
 import React from "react";
-import plugs from "../../apis/plugs";
+import data from "../../apis/data";
 import ButtonGroup from "../ButtonGroup";
 
 class PlugActivator extends React.Component {
   onButtonClick = async (event) => {
-    await plugs.post("/switch", {
+    await data.post("/switch", {
       plug: this.props.plug,
       value: event.target.value,
     });
