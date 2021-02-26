@@ -70,7 +70,6 @@ export const fetchCategories = () => async (dispatch) => {
 };
 
 export const editCategory = (id, formValues) => async (dispatch) => {
-  console.log("edit");
   const response = await data.patch(`/category/${id}`, { ...formValues });
 
   dispatch({ type: EDIT_CATEGORY, payload: response.data });

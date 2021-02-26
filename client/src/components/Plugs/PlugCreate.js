@@ -1,10 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
-import { createPlug } from "../../actions";
+import { createPlug, fetchCategories } from "../../actions";
 import { Container } from "react-bootstrap";
 import InputForm from "../InputForm";
 
 class PlugCreate extends React.Component {
+  componentDidMount() {
+    this.props.fetchCategories();
+  }
+
   onSubmit = (formValue) => {
     this.props.createPlug(formValue);
   };
@@ -14,6 +18,11 @@ class PlugCreate extends React.Component {
       { name: "title", label: "Enter Title" },
       { name: "systemCode", label: "Enter System Code" },
       { name: "unitCode", label: "Enter Unit Code" },
+      {
+        name: "category",
+        label: "Select a Category",
+        options: this.props.categories,
+      },
     ];
 
     return (
@@ -29,4 +38,12 @@ class PlugCreate extends React.Component {
   }
 }
 
-export default connect(null, { createPlug })(PlugCreate);
+const mapStateToProps = (state) => {
+  return {
+    categories: Object.values(state.categories),
+  };
+};
+
+export default connect(mapStateToProps, { createPlug, fetchCategories })(
+  PlugCreate
+);

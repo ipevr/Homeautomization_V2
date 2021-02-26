@@ -1,13 +1,14 @@
 import _ from "lodash";
 import React from "react";
 import { connect } from "react-redux";
-import { fetchPlug, editPlug } from "../../actions";
+import { fetchPlug, editPlug, fetchCategories } from "../../actions";
 import { Container } from "react-bootstrap";
 import InputForm from "../InputForm";
 
 class PlugEdit extends React.Component {
   componentDidMount() {
     this.props.fetchPlug(this.props.match.params.id);
+    this.props.fetchCategories();
   }
 
   onSubmit = (formValues) => {
@@ -23,6 +24,11 @@ class PlugEdit extends React.Component {
       { name: "title", label: "Edit Title" },
       { name: "systemCode", label: "Edit System Code" },
       { name: "unitCode", label: "Edit Unit Code" },
+      {
+        name: "category",
+        label: "Change the Category",
+        options: this.props.categories,
+      },
     ];
 
     return (
@@ -34,6 +40,7 @@ class PlugEdit extends React.Component {
             "title",
             "systemCode",
             "unitCode",
+            "category",
           ])}
           inputFields={inputFields}
           onSubmit={this.onSubmit}
@@ -46,7 +53,12 @@ class PlugEdit extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     plug: state.plugs[ownProps.match.params.id],
+    categories: Object.values(state.categories),
   };
 };
 
-export default connect(mapStateToProps, { fetchPlug, editPlug })(PlugEdit);
+export default connect(mapStateToProps, {
+  fetchPlug,
+  editPlug,
+  fetchCategories,
+})(PlugEdit);
