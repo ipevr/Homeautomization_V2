@@ -16,7 +16,7 @@ const categoryReducer = (state = {}, action) => {
     case CREATE_CATEGORY:
       return { ...state, [action.payload.id]: action.payload };
     case EDIT_CATEGORY:
-      return { ...state, [action.payload.id]: action.payload };
+      return { ...state, ..._.mapKeys(action.payload, "id") };
     case DELETE_CATEGORY:
       return _.omit(state, action.payload);
     default:

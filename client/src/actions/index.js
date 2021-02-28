@@ -76,6 +76,15 @@ export const editCategory = (id, formValues) => async (dispatch) => {
   history.push("/categories/modify");
 };
 
+export const sortCategory = (id, position) => async (dispatch) => {
+  const response = await data.patch(`/category/${id}`, {
+    position: position,
+  });
+
+  dispatch({ type: EDIT_CATEGORY, payload: response.data });
+  history.push("/categories/modify");
+};
+
 export const deleteCategory = (id) => async (dispatch) => {
   await data.delete(`/category/${id}`);
 

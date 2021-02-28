@@ -8,14 +8,13 @@ const port = process.env.PORT || 5000;
 const rawdata = fs.readFileSync("./db.json");
 const data = JSON.parse(rawdata);
 
-const getNextId = (type) => {
-  if (!type || type.length === 0) {
+const getNextNumber = (items, identifier) => {
+  if (!items || items.length === 0) {
     return 1;
   }
 
-  const ids = type.map((item) => item.id);
-  const highestId = Math.max(...ids);
-  return highestId + 1;
+  const numbers = items.map((item) => item[identifier]);
+  return Math.max(...numbers) + 1;
 };
 
 const getData = (type) => {
@@ -27,8 +26,50 @@ const getData = (type) => {
   return data;
 };
 
+const recalculatePositions = (items, pos) => {
+  for (let i = 0; i < items.length; i++) {
+    if (items[i].position > pos) {
+      items[i].position--;
+    }
+  }
+  return items;
+};
+
+const patchCategories = (id, changedData, categoriesData) => {
+  if ("name" in changedData) {
+    return categoriesData.map((category) => {
+      if (category.id === id) {
+        category.name = changedData.name;
+      }
+      return category;
+    });
+  } else if ("position" in changedData) {
+    const positions = categoriesData.map((category) => category.position);
+    const highestPos = Math.max(...positions);
+    if (changedData.position > highestPos || changedData.position <= 0) {
+      return categoriesData;
+    }
+    const index = categoriesData.findIndex((category) => category.id === id);
+    if (categoriesData[index].position > changedData.position) {
+      // category goes 1 position upwards
+      categoriesData.find(
+        (category) => category.position === changedData.position
+      ).position++;
+    } else {
+      // category goes 1 position downwards
+      categoriesData.find(
+        (category) => category.position === changedData.position
+      ).position--;
+    }
+    categoriesData[index].position = changedData.position;
+  }
+  return categoriesData;
+};
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+//************************* PLUGS *************************/
 
 app
   .route("/plugs")
@@ -72,6 +113,55 @@ app
     res.send(data.plugs);
   });
 
+//************************* CATEGORIES *************************/
+
+app
+  .route("/categories")
+  .get((req, res) => {
+    res.send(getData("categories").categories);
+  })
+  .post((req, res) => {
+    const newPlug = req.body;
+    const data = getData("categories");
+    const newId = getNextNumber(data.categories, "id");
+    newPlug.id = newId;
+    newPlug.position = getNextNumber(data.categories, "position");
+    data.categories.push(newPlug);
+    fs.writeFileSync("./db.json", JSON.stringify(data));
+    res.send(newPlug);
+  });
+
+app
+  .route("/category/:id")
+  .get((req, res) => {
+    const data = getData("categories");
+    const category = data.categories.find((category) => {
+      return category.id.toString() === req.params.id;
+    });
+    res.send(category);
+  })
+  .patch((req, res) => {
+    const data = getData("categories");
+    data.categories = patchCategories(
+      parseInt(req.params.id),
+      req.body,
+      data.categories
+    );
+    fs.writeFileSync("./db.json", JSON.stringify(data));
+    res.send(data.categories);
+  })
+  .delete((req, res) => {
+    const id = parseInt(req.params.id);
+    const data = getData("categories");
+    const pos = data.categories.find((category) => category.id === id).position;
+    data.categories = data.categories.filter((category) => category.id !== id);
+    data.categories = recalculatePositions(data.categories, pos);
+    fs.writeFileSync("./db.json", JSON.stringify(data));
+    res.send(data.categories);
+  });
+
+//************************* SWITCH *************************/
+
 app.post("/switch", (req, res) => {
   const { systemCode, unitCode } = req.body.plug;
   exec(
@@ -90,50 +180,5 @@ app.post("/switch", (req, res) => {
     }
   );
 });
-
-app
-  .route("/categories")
-  .get((req, res) => {
-    res.send(getData("categories").categories);
-  })
-  .post((req, res) => {
-    const newPlug = req.body;
-    const data = getData("categories");
-    const newId = getNextId(data.categories);
-    newPlug.id = newId;
-    data.categories.push(newPlug);
-    fs.writeFileSync("./db.json", JSON.stringify(data));
-    res.send(newPlug);
-  });
-
-app
-  .route("/category/:id")
-  .get((req, res) => {
-    const data = getData("categories");
-    const category = data.categories.find((category) => {
-      return category.id.toString() === req.params.id;
-    });
-    res.send(category);
-  })
-  .patch((req, res) => {
-    console.log("patch category");
-    const categoryModified = req.body;
-    categoryModified.id = parseInt(req.params.id);
-    const data = getData("categories");
-    data.categories = data.categories.map((category) =>
-      category.id === categoryModified.id ? categoryModified : category
-    );
-    fs.writeFileSync("./db.json", JSON.stringify(data));
-    res.send(categoryModified);
-  })
-  .delete((req, res) => {
-    const id = req.params.id;
-    const data = getData("categories");
-    data.categories = data.categories.filter(
-      (category) => category.id.toString() !== id
-    );
-    fs.writeFileSync("./db.json", JSON.stringify(data));
-    res.send(data.categories);
-  });
 
 app.listen(port, () => console.log(`Listening on port ${port}`));

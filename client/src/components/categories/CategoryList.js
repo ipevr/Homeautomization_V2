@@ -14,10 +14,14 @@ class CategoryList extends React.Component {
   }
 
   renderList() {
+    this.props.categories.sort((cat1, cat2) =>
+      cat1.position > cat2.position ? 1 : cat1.position < cat2.position ? -1 : 0
+    );
+
     return this.props.categories.map((category) => (
       <ListGroup.Item key={category.id} className="pr-0">
         <Row>
-          <Col sm="8">
+          <Col sm="4">
             <h4>{category.name}</h4>
           </Col>
           {this.renderButtons(category)}
