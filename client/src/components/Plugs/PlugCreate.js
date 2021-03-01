@@ -10,6 +10,7 @@ class PlugCreate extends React.Component {
   }
 
   onSubmit = (formValue) => {
+    console.log(formValue);
     this.props.createPlug(formValue);
   };
 

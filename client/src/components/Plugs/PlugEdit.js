@@ -36,12 +36,14 @@ class PlugEdit extends React.Component {
         <h3>Edit a Plug</h3>
         <InputForm
           backLink="/plugs/modify"
-          initialValues={_.pick(this.props.plug, [
-            "title",
-            "systemCode",
-            "unitCode",
-            "category",
-          ])}
+          initialValues={{
+            title: this.props.plug.title,
+            systemCode: this.props.plug.systemCode,
+            unitCode: this.props.plug.unitCode,
+            category: this.props.categories.find(
+              (category) => this.props.plug.category === category.id
+            ).name,
+          }}
           inputFields={inputFields}
           onSubmit={this.onSubmit}
         />

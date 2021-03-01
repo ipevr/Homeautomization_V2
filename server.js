@@ -79,8 +79,11 @@ app
   .post((req, res) => {
     const newPlug = req.body;
     const data = getData("plugs");
-    const newId = getNextId(data.plugs);
+    const newId = getNextNumber(data.plugs, "id");
     newPlug.id = newId;
+    newPlug.category = data.categories.find(
+      (category) => category.name === newPlug.category
+    ).id;
     data.plugs.push(newPlug);
     fs.writeFileSync("./db.json", JSON.stringify(data));
     res.send(newPlug);
@@ -96,14 +99,17 @@ app
     res.send(plug);
   })
   .patch((req, res) => {
-    const plugModified = req.body;
-    plugModified.id = parseInt(req.params.id);
+    const modifiedPlug = req.body;
     const data = getData("plugs");
+    modifiedPlug.id = parseInt(req.params.id);
+    modifiedPlug.category = data.categories.find(
+      (category) => category.name === modifiedPlug.category
+    ).id;
     data.plugs = data.plugs.map((plug) =>
-      plug.id === plugModified.id ? plugModified : plug
+      plug.id === modifiedPlug.id ? modifiedPlug : plug
     );
     fs.writeFileSync("./db.json", JSON.stringify(data));
-    res.send(plugModified);
+    res.send(modifiedPlug);
   })
   .delete((req, res) => {
     const id = req.params.id;

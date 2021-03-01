@@ -32,7 +32,6 @@ class InputForm extends React.Component {
 
   renderFields = () =>
     this.props.inputFields.map(({ name, label, options }) => {
-      console.log(this.props.inputFields);
       return (
         <Field
           key={name}
