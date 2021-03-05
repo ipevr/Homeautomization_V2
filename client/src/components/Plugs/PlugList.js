@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, ListGroup, Row, Col } from "react-bootstrap";
+import { Container, ListGroup, CardDeck, Card, Col } from "react-bootstrap";
 import { connect } from "react-redux";
 import { fetchPlugs, fetchCategories } from "../../actions";
 import PlugActivator from "./PlugActivator";
@@ -25,28 +25,32 @@ class PlugList extends React.Component {
 
   renderPlug(plug) {
     return (
-      <ListGroup.Item key={plug.id} className="pr-0">
-        <Row>
-          <Col sm="8">
-            <h4>{plug.title}</h4>
-          </Col>
-          {this.renderButtons(plug)}
-        </Row>
-      </ListGroup.Item>
+      <Col className="container-fluid mt-3">
+        <Card key={plug.id} style={{ width: "18rem" }}>
+          <Card.Body>
+            <Card.Title>
+              <h4>{plug.title}</h4>
+            </Card.Title>
+            {this.renderButtons(plug)}
+          </Card.Body>
+        </Card>
+      </Col>
     );
   }
 
   renderPlugs(category) {
     return (
-      <ListGroup>
+      <>
         <h3>{category.name}</h3>
-        {this.props.plugs.map((plug) => {
-          if (plug.category === category.id) {
-            return this.renderPlug(plug);
-          }
-          return null;
-        })}
-      </ListGroup>
+        <CardDeck>
+          {this.props.plugs.map((plug) => {
+            if (plug.category === category.id) {
+              return this.renderPlug(plug);
+            }
+            return null;
+          })}
+        </CardDeck>
+      </>
     );
   }
 

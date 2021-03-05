@@ -1,5 +1,5 @@
 import React from "react";
-import { Col, Button } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 
 const ButtonGroup = (props) => {
   const renderButtons = () => {
@@ -11,7 +11,7 @@ const ButtonGroup = (props) => {
           value={button.value}
           variant={button.variant}
           size="lg"
-          className="ml-3"
+          className="mr-3"
         >
           {button.title}
         </Button>
@@ -19,11 +19,7 @@ const ButtonGroup = (props) => {
     });
   };
 
-  return (
-    <Col sm={props.buttonProps.length * 2} className="text-right">
-      {renderButtons()}
-    </Col>
-  );
+  return renderButtons();
 };
 
 export default ButtonGroup;
