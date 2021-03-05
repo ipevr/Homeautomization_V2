@@ -11,6 +11,10 @@ class PlugList extends React.Component {
     this.props.fetchCategories();
   }
 
+  categoryHasPlugs(category) {
+    return this.props.plugs.find((plug) => plug.category === category.id);
+  }
+
   renderButtons(plug) {
     if (!this.props.match.params.modify) {
       return <PlugActivator plug={plug} />;
@@ -19,22 +23,31 @@ class PlugList extends React.Component {
     }
   }
 
+  renderPlug(plug) {
+    return (
+      <ListGroup.Item key={plug.id} className="pr-0">
+        <Row>
+          <Col sm="8">
+            <h4>{plug.title}</h4>
+          </Col>
+          {this.renderButtons(plug)}
+        </Row>
+      </ListGroup.Item>
+    );
+  }
+
   renderPlugs(category) {
-    return this.props.plugs.map((plug) => {
-      if (plug.category === category.id) {
-        return (
-          <ListGroup.Item key={plug.id} className="pr-0">
-            <Row>
-              <Col sm="8">
-                <h4>{plug.title}</h4>
-              </Col>
-              {this.renderButtons(plug)}
-            </Row>
-          </ListGroup.Item>
-        );
-      }
-      return null;
-    });
+    return (
+      <ListGroup>
+        <h3>{category.name}</h3>
+        {this.props.plugs.map((plug) => {
+          if (plug.category === category.id) {
+            return this.renderPlug(plug);
+          }
+          return null;
+        })}
+      </ListGroup>
+    );
   }
 
   renderList() {
@@ -42,12 +55,16 @@ class PlugList extends React.Component {
       cat1.position > cat2.position ? 1 : cat1.position < cat2.position ? -1 : 0
     );
 
-    return this.props.categories.map((category) => (
-      <ListGroup.Item key={category.id} className="pr-0">
-        {category.name}
-        {this.renderPlugs(category)}
-      </ListGroup.Item>
-    ));
+    return this.props.categories.map((category) => {
+      if (this.categoryHasPlugs(category)) {
+        return (
+          <ListGroup.Item key={category.id} className="pr-0">
+            {this.renderPlugs(category)}
+          </ListGroup.Item>
+        );
+      }
+      return null;
+    });
   }
 
   render() {
