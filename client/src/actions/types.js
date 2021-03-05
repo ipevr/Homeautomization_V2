@@ -9,3 +9,9 @@ export const FETCH_CATEGORY = "FETCH_CATEGORY";
 export const FETCH_CATEGORIES = "FETCH_CATEGORIES";
 export const EDIT_CATEGORY = "EDIT_CATEGORY";
 export const DELETE_CATEGORY = "DELETE_CATEGORY";
+
+export const CREATE_GROUP = "CREATE_GROUP";
+export const FETCH_GROUP = "FETCH_GROUP";
+export const FETCH_GROUPS = "FETCH_GROUPS";
+export const EDIT_GROUP = "EDIT_GROUP";
+export const DELETE_GROUP = "DELETE_GROUP";

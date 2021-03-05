@@ -10,6 +10,10 @@ import CategoryCreate from "./categories/CategoryCreate";
 import CategoryList from "./categories/CategoryList";
 import CategoryEdit from "./categories/CategoryEdit";
 import CategoryDelete from "./categories/CategoryDelete";
+import GroupCreate from "./groups/GroupCreate";
+import GroupList from "./groups/GroupList";
+import GroupEdit from "./groups/GroupEdit";
+import GroupDelete from "./groups/GroupDelete";
 
 class App extends React.Component {
   render() {
@@ -41,6 +45,10 @@ class App extends React.Component {
                 exact
                 component={CategoryDelete}
               />
+              <Route path="/groups/create" exact component={GroupCreate} />
+              <Route path="/groups/modify" exact component={GroupList} />
+              <Route path="/groups/edit/:id" exact component={GroupEdit} />
+              <Route path="/groups/delete/:id" exact component={GroupDelete} />
             </Switch>
           </div>
         </Router>

@@ -10,6 +10,11 @@ import {
   FETCH_CATEGORIES,
   EDIT_CATEGORY,
   DELETE_CATEGORY,
+  CREATE_GROUP,
+  FETCH_GROUP,
+  FETCH_GROUPS,
+  EDIT_GROUP,
+  DELETE_GROUP,
 } from "./types";
 import history from "../history";
 
@@ -90,4 +95,39 @@ export const deleteCategory = (id) => async (dispatch) => {
 
   dispatch({ type: DELETE_CATEGORY, payload: id });
   history.push("/categories/modify");
+};
+
+//************************* GROUPS *************************/
+
+export const createGroup = (formValues) => async (dispatch) => {
+  const response = await data.post("/groups", { ...formValues });
+
+  dispatch({ type: CREATE_GROUP, payload: response.data });
+  history.push("/groups/modify");
+};
+
+export const fetchGroup = (id) => async (dispatch) => {
+  const response = await data.get(`/group/${id}`);
+
+  dispatch({ type: FETCH_GROUP, payload: response.data });
+};
+
+export const fetchGroups = () => async (dispatch) => {
+  const response = await data.get("/groups");
+
+  dispatch({ tpye: FETCH_GROUPS, payload: response.data });
+};
+
+export const editGroup = (id, formValues) => async (dispatch) => {
+  const response = await data.patch(`/group/${id}`, { ...formValues });
+
+  dispatch({ type: EDIT_GROUP, payload: response.data });
+  history.push("/groups/modify");
+};
+
+export const deleteGroup = (id) => async (dispatch) => {
+  await data.delete(`/group/${id}`);
+
+  dispatch({ type: DELETE_GROUP, payload: id });
+  history.push("/groups/modify");
 };

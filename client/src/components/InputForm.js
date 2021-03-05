@@ -30,21 +30,53 @@ class InputForm extends React.Component {
     );
   }
 
+  renderMultiSelection = ({ input, label, multiSel }) => {
+    return (
+      <Form.Group>
+        <Form.Label className="font-weight-bold">{label}</Form.Label>
+        {multiSel.map((selection) => this.renderSelection(selection))}
+      </Form.Group>
+    );
+  };
+
+  renderSelection(selection) {
+    console.log(selection);
+    return <Form.Check key={selection.id} label={selection.title} />;
+  }
+
   renderFields = () =>
-    this.props.inputFields.map(({ name, label, options }) => {
-      return (
-        <Field
-          key={name}
-          name={name}
-          component={
-            options && options.length > 0
-              ? this.renderOptions
-              : this.renderInput
-          }
-          label={label}
-          options={options}
-        />
-      );
+    this.props.inputFields.map(({ name, label, options, multiSel }) => {
+      if (options && options.length > 0) {
+        return (
+          <Field
+            key={name}
+            name={name}
+            component={this.renderOptions}
+            label={label}
+            options={options}
+          />
+        );
+      } else if (multiSel && multiSel.length > 0) {
+        return (
+          <Field
+            key={name}
+            name={name}
+            component={this.renderMultiSelection}
+            label={label}
+            multiSel={multiSel}
+          />
+        );
+      } else {
+        return (
+          <Field
+            key={name}
+            name={name}
+            component={this.renderInput}
+            label={label}
+            options={options}
+          />
+        );
+      }
     });
 
   onFormSubmit = (formValues) => this.props.onSubmit(formValues);
@@ -71,6 +103,6 @@ class InputForm extends React.Component {
 }
 
 export default reduxForm({
-  form: "plugForm",
+  form: "inputForm",
   validate,
 })(InputForm);

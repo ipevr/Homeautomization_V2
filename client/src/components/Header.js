@@ -13,6 +13,10 @@ function Header() {
     { title: "Create", link: "/categories/create" },
     { title: "Modify", link: "/categories/modify" },
   ];
+  const groupsDropdownItems = [
+    { title: "Create", link: "/groups/create" },
+    { title: "Modify", link: "/groups/modify" },
+  ];
 
   return (
     <header>
@@ -30,6 +34,10 @@ function Header() {
             <NavigationDropdown
               title="Categories"
               items={categoriesDropdownItems}
+            ></NavigationDropdown>
+            <NavigationDropdown
+              title="Groups"
+              items={groupsDropdownItems}
             ></NavigationDropdown>
           </Nav>
         </Navbar.Collapse>
