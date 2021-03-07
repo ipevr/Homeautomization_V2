@@ -127,14 +127,14 @@ app
     res.send(getData("categories").categories);
   })
   .post((req, res) => {
-    const newPlug = req.body;
+    const newCategory = req.body;
     const data = getData("categories");
     const newId = getNextNumber(data.categories, "id");
-    newPlug.id = newId;
-    newPlug.position = getNextNumber(data.categories, "position");
-    data.categories.push(newPlug);
+    newCategory.id = newId;
+    newCategory.position = getNextNumber(data.categories, "position");
+    data.categories.push(newCategory);
     fs.writeFileSync("./db.json", JSON.stringify(data));
-    res.send(newPlug);
+    res.send(newCategory);
   });
 
 app
@@ -165,6 +165,31 @@ app
     fs.writeFileSync("./db.json", JSON.stringify(data));
     res.send(data.categories);
   });
+
+//************************* GROUPS *************************/
+
+app
+  .route("/groups")
+  .get((req, res) => {
+    res.send(getData("groups").categories);
+  })
+  .post((req, res) => {
+    const newGroup = req.body;
+    const data = getData("groups");
+    const newId = getNextNumber(data.groups, "id");
+    newGroup.id = newId;
+    data.groups.push(newGroup);
+    fs.writeFileSync("./db.json", JSON.stringify(data));
+    res.send(newGroup);
+  });
+
+app.route("/group/:id").get((req, res) => {
+  const data = getData("groups");
+  const category = data.groups.find((groups) => {
+    return group.id.toString() === req.params.id;
+  });
+  res.send(category);
+});
 
 //************************* SWITCH *************************/
 

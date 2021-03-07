@@ -56,7 +56,20 @@ class GroupInputForm extends React.Component {
       }
     });
 
-  onFormSubmit = (formValues) => this.props.onSubmit(formValues);
+  onFormSubmit = (formValues) => {
+    const groupValues = {
+      name: formValues.name,
+      plugs: [],
+    };
+
+    for (var [key, value] of Object.entries(formValues)) {
+      if (value === true) {
+        groupValues.plugs.push(key);
+      }
+    }
+
+    return this.props.onSubmit(groupValues);
+  };
 
   render() {
     return (

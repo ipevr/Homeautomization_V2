@@ -16,7 +16,7 @@ class GroupCreate extends React.Component {
 
   render() {
     const inputFields = [
-      { name: "title", label: "Enter Title" },
+      { name: "name", label: "Enter Title" },
       {
         name: "plugs",
         label: "Select Plugs to add to the Group",
