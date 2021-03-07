@@ -2,9 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import { Field, reduxForm } from "redux-form";
-import validate from "./validate";
+import validate from "../validate";
 
-class InputForm extends React.Component {
+class PlugInputForm extends React.Component {
   renderInput = ({ input, label }) => {
     return (
       <Form.Group>
@@ -30,22 +30,8 @@ class InputForm extends React.Component {
     );
   }
 
-  renderMultiSelection = ({ input, label, multiSel }) => {
-    return (
-      <Form.Group>
-        <Form.Label className="font-weight-bold">{label}</Form.Label>
-        {multiSel.map((selection) => this.renderSelection(selection))}
-      </Form.Group>
-    );
-  };
-
-  renderSelection(selection) {
-    console.log(selection);
-    return <Form.Check key={selection.id} label={selection.title} />;
-  }
-
   renderFields = () =>
-    this.props.inputFields.map(({ name, label, options, multiSel }) => {
+    this.props.inputFields.map(({ name, label, options }) => {
       if (options && options.length > 0) {
         return (
           <Field
@@ -54,16 +40,6 @@ class InputForm extends React.Component {
             component={this.renderOptions}
             label={label}
             options={options}
-          />
-        );
-      } else if (multiSel && multiSel.length > 0) {
-        return (
-          <Field
-            key={name}
-            name={name}
-            component={this.renderMultiSelection}
-            label={label}
-            multiSel={multiSel}
           />
         );
       } else {
@@ -105,4 +81,4 @@ class InputForm extends React.Component {
 export default reduxForm({
   form: "inputForm",
   validate,
-})(InputForm);
+})(PlugInputForm);

@@ -3,7 +3,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { fetchGroup, editGroup } from "../../actions";
 import { Container } from "react-bootstrap";
-import InputForm from "../InputForm";
+import GroupInputForm from "./GroupInputForm";
 
 class GroupEdit extends React.Component {
   componentDidMount() {
@@ -19,12 +19,19 @@ class GroupEdit extends React.Component {
       return <div>Loading...</div>;
     }
 
-    const inputFields = [{ name: "name", label: "Edit Name" }];
+    const inputFields = [
+      { name: "title", label: "Enter Title" },
+      {
+        name: "plugs",
+        label: "Select Plugs to add to the Group",
+        plugs: this.props.plugs,
+      },
+    ];
 
     return (
       <Container className="m-3">
         <h3>Edit a Group</h3>
-        <InputForm
+        <GroupInputForm
           backLink="/categories/modify"
           initialValues={_.pick(this.props.group, ["name"])}
           inputFields={inputFields}

@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { createGroup, fetchPlugs } from "../../actions";
 import { Container } from "react-bootstrap";
-import InputForm from "../InputForm";
+import GroupInputForm from "./GroupInputForm";
 
 class GroupCreate extends React.Component {
   componentDidMount() {
@@ -11,6 +11,7 @@ class GroupCreate extends React.Component {
 
   onSubmit = (formValue) => {
     this.props.createGroup(formValue);
+    console.log(formValue);
   };
 
   render() {
@@ -19,14 +20,14 @@ class GroupCreate extends React.Component {
       {
         name: "plugs",
         label: "Select Plugs to add to the Group",
-        multiSel: this.props.plugs,
+        plugs: this.props.plugs,
       },
     ];
 
     return (
       <Container className="m-3">
         <h3>Create a Group</h3>
-        <InputForm
+        <GroupInputForm
           backLink="/"
           inputFields={inputFields}
           onSubmit={this.onSubmit}

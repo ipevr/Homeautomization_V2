@@ -25,8 +25,8 @@ class PlugList extends React.Component {
 
   renderPlug(plug) {
     return (
-      <Col className="container-fluid mt-3">
-        <Card key={plug.id} style={{ width: "18rem" }}>
+      <Col key={plug.id} className="container-fluid mt-3">
+        <Card style={{ width: "18rem" }}>
           <Card.Body>
             <Card.Title>
               <h4>{plug.title}</h4>

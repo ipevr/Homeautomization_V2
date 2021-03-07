@@ -3,7 +3,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { fetchCategory, editCategory } from "../../actions";
 import { Container } from "react-bootstrap";
-import InputForm from "../InputForm";
+import CategoriesInputForm from "./CategoriesInputForm";
 
 class CategoryEdit extends React.Component {
   componentDidMount() {
@@ -19,12 +19,12 @@ class CategoryEdit extends React.Component {
       return <div>Loading...</div>;
     }
 
-    const inputFields = [{ name: "name", label: "Edit Name" }];
+    const inputFields = [{ name: "name", label: "Edit Category Name" }];
 
     return (
       <Container className="m-3">
         <h3>Edit a Category</h3>
-        <InputForm
+        <CategoriesInputForm
           backLink="/categories/modify"
           initialValues={_.pick(this.props.category, ["name"])}
           inputFields={inputFields}

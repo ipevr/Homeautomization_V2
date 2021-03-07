@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { createPlug, fetchCategories } from "../../actions";
 import { Container } from "react-bootstrap";
-import InputForm from "../InputForm";
+import PlugInputForm from "./PlugInputForm";
 
 class PlugCreate extends React.Component {
   componentDidMount() {
@@ -29,7 +29,7 @@ class PlugCreate extends React.Component {
     return (
       <Container className="m-3">
         <h3>Create a Plug</h3>
-        <InputForm
+        <PlugInputForm
           backLink="/plugs"
           inputFields={inputFields}
           onSubmit={this.onSubmit}

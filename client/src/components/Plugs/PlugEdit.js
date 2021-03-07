@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { fetchPlug, editPlug, fetchCategories } from "../../actions";
 import { Container } from "react-bootstrap";
-import InputForm from "../InputForm";
+import PlugInputForm from "./PlugInputForm";
 
 class PlugEdit extends React.Component {
   componentDidMount() {
@@ -33,7 +33,7 @@ class PlugEdit extends React.Component {
     return (
       <Container className="m-3">
         <h3>Edit a Plug</h3>
-        <InputForm
+        <PlugInputForm
           backLink="/plugs/modify"
           initialValues={{
             title: this.props.plug.title,
