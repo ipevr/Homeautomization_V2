@@ -115,7 +115,7 @@ export const fetchGroup = (id) => async (dispatch) => {
 export const fetchGroups = () => async (dispatch) => {
   const response = await data.get("/groups");
 
-  dispatch({ tpye: FETCH_GROUPS, payload: response.data });
+  dispatch({ type: FETCH_GROUPS, payload: response.data });
 };
 
 export const editGroup = (id, formValues) => async (dispatch) => {

@@ -171,7 +171,7 @@ app
 app
   .route("/groups")
   .get((req, res) => {
-    res.send(getData("groups").categories);
+    res.send(getData("groups").groups);
   })
   .post((req, res) => {
     const newGroup = req.body;
@@ -194,22 +194,39 @@ app.route("/group/:id").get((req, res) => {
 //************************* SWITCH *************************/
 
 app.post("/switch", (req, res) => {
-  const { systemCode, unitCode } = req.body.plug;
-  exec(
-    `/home/pi/rcswitch-pi/send ${systemCode} ${unitCode} ${req.body.value}`,
-    (err, stdout, stderr) => {
-      if (err) {
-        console.log("Something went wrong: ", err);
-        res.send(err);
+  const plugs = [];
+
+  if (req.body.plug.plugs) {
+    const data = getData("plugs");
+    req.body.plug.plugs.map((plugId) => {
+      const plug = data.plugs.find((plug) => plug.id.toString() === plugId);
+      plugs.push({ systemCode: plug.systemCode, unitCode: plug.unitCode });
+    });
+  } else {
+    const { systemCode, unitCode } = req.body.plug;
+    plugs.push({ systemCode, unitCode });
+  }
+
+  for (let i = 0; i < plugs.length; i++) {
+    console.log(
+      `/home/pi/rcswitch-pi/send ${plugs[i].systemCode} ${plugs[i].unitCode} ${req.body.value}`
+    );
+    exec(
+      `/home/pi/rcswitch-pi/send ${plugs[i].systemCode} ${plugs[i].unitCode} ${req.body.value}`,
+      (err, stdout, stderr) => {
+        if (err) {
+          console.log("Something went wrong: ", err);
+          res.send(err);
+        }
+        if (stderr) {
+          console.log("stderr: ", stderr);
+          res.send(stderr);
+        }
+        console.log("stdout: ", stdout);
+        res.send(stdout);
       }
-      if (stderr) {
-        console.log("stderr: ", stderr);
-        res.send(stderr);
-      }
-      console.log("stdout: ", stdout);
-      res.send(stdout);
-    }
-  );
+    );
+  }
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
