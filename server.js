@@ -66,6 +66,15 @@ const patchCategories = (id, changedData, categoriesData) => {
   return categoriesData;
 };
 
+const execShellCommand = async (cmd) => {
+  await exec(cmd, (error, stdout, stderr) => {
+    if (error) {
+      console.log(error);
+    }
+    return stdout ? stdout : stderr;
+  });
+};
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -195,8 +204,7 @@ app.route("/group/:id").get((req, res) => {
 
 app.post("/switch", (req, res) => {
   const plugs = [];
-  const error = [];
-  const stderror = [];
+  var output = "";
 
   if (req.body.plug.plugs) {
     const data = getData("plugs");
@@ -208,31 +216,18 @@ app.post("/switch", (req, res) => {
     const { systemCode, unitCode } = req.body.plug;
     plugs.push({ systemCode, unitCode });
   }
+  console.log("plugs: ", plugs);
 
   for (let i = 0; i < plugs.length; i++) {
     console.log(
       `/home/pi/rcswitch-pi/send ${plugs[i].systemCode} ${plugs[i].unitCode} ${req.body.value}`
     );
-    exec(
-      `/home/pi/rcswitch-pi/send ${plugs[i].systemCode} ${plugs[i].unitCode} ${req.body.value}`,
-      (err, stdout, stderr) => {
-        if (err) {
-          console.log("Something went wrong: ", err);
-          error.push(err);
-        }
-        if (stderr) {
-          console.log("stderr: ", stderr);
-          stderror.push(stderr);
-        }
-        console.log("stdout: ", stdout);
-      }
+    output = execShellCommand(
+      `/home/pi/rcswitch-pi/send ${plugs[i].systemCode} ${plugs[i].unitCode} ${req.body.value}`
     );
   }
 
-  if (error.length > 0 || stderror.length > 0) {
-    res.send("Finished with errors");
-  }
-  res.send("Finished");
+  res.send(output);
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
