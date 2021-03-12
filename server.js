@@ -67,12 +67,14 @@ const patchCategories = (id, changedData, categoriesData) => {
 };
 
 const execShellCommand = async (cmd) => {
+  var output;
   await exec(cmd, (error, stdout, stderr) => {
     if (error) {
       console.log(error);
     }
-    return stdout ? stdout : stderr;
+    output = stdout ? stdout : stderr;
   });
+  return output;
 };
 
 app.use(bodyParser.json());
