@@ -2,7 +2,8 @@ const express = require("express");
 const util = require("util");
 const bodyParser = require("body-parser");
 const fs = require("fs");
-const exec = util.promisify(require("child_process").exec);
+//const exec = util.promisify(require("child_process").exec);
+const exec = require("child_process").exec;
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -235,6 +236,7 @@ app.post("/switch", async (req, res) => {
         return stdout ? stdout : stderr;
       }
     );
+    console.log("next one...");
   }
 
   res.send(output);
