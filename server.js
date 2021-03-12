@@ -218,11 +218,8 @@ app.post("/switch", async (req, res) => {
     const { systemCode, unitCode } = req.body.plug;
     plugs.push({ systemCode, unitCode });
   }
-  console.log("plugs: ", plugs);
-  console.log("{ ...plugs } ", { ...plugs });
 
   for (const key in { ...plugs }) {
-    console.log("plug: ", plugs[key]);
     console.log(
       `/home/pi/rcswitch-pi/send ${plugs[key].systemCode} ${plugs[key].unitCode} ${req.body.value}`
     );
