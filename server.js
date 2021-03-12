@@ -226,10 +226,15 @@ app.post("/switch", async (req, res) => {
     console.log(
       `/home/pi/rcswitch-pi/send ${plugs[key].systemCode} ${plugs[key].unitCode} ${req.body.value}`
     );
-    output = await execShellCommand(
-      `/home/pi/rcswitch-pi/send ${plugs[key].systemCode} ${plugs[key].unitCode} ${req.body.value}`
+    await exec(
+      `/home/pi/rcswitch-pi/send ${plugs[key].systemCode} ${plugs[key].unitCode} ${req.body.value}`,
+      (error, stdout, stderr) => {
+        if (error) {
+          console.log(error);
+        }
+        console.log(stdout ? stdout : stderr);
+      }
     );
-    console.log(output);
   }
 
   res.send(output);
