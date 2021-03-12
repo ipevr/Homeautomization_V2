@@ -225,15 +225,14 @@ app.post("/switch", (req, res) => {
       `/home/pi/rcswitch-pi/send ${plugs[key].systemCode} ${plugs[key].unitCode} ${req.body.value}`
     );
     const executeSwitch = async () => {
-      await exec(
-        `/home/pi/rcswitch-pi/send ${plugs[key].systemCode} ${plugs[key].unitCode} ${req.body.value}`,
-        (error, stdout, stderr) => {
-          if (error) {
-            return error;
-          }
-          return stdout ? stdout : stderr;
-        }
-      );
+      try {
+        const { stdout, stderr } = await exec(
+          `/home/pi/rcswitch-pi/send ${plugs[key].systemCode} ${plugs[key].unitCode} ${req.body.value}`
+        );
+        console.log(stdout ? stdout : stderr);
+      } catch (e) {
+        console.error(e);
+      }
     };
     executeSwitch();
   }
