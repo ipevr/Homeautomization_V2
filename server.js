@@ -217,16 +217,30 @@ app.post("/switch", async (req, res) => {
     plugs.push({ systemCode, unitCode });
   }
   console.log("plugs: ", plugs);
+  console.log("Object.fromEntries(plugs) ", Object.fromEntries(plugs));
 
-  for (const plug in plugs) {
+  for await (const contents of plugs.map((plug) => {
+    console.log("plug: ", plug);
     console.log(
       `/home/pi/rcswitch-pi/send ${plug.systemCode} ${plug.unitCode} ${req.body.value}`
     );
-    output = await execShellCommand(
+    output = execShellCommand(
       `/home/pi/rcswitch-pi/send ${plug.systemCode} ${plug.unitCode} ${req.body.value}`
     );
     console.log(output);
+  })) {
+    console.log(contents);
   }
+  // for (const plug in Object.fromEntries(plugs)) {
+  //   console.log("plug: ", plug);
+  //   console.log(
+  //     `/home/pi/rcswitch-pi/send ${plug.systemCode} ${plug.unitCode} ${req.body.value}`
+  //   );
+  //   output = await execShellCommand(
+  //     `/home/pi/rcswitch-pi/send ${plug.systemCode} ${plug.unitCode} ${req.body.value}`
+  //   );
+  //   console.log(output);
+  // }
 
   res.send(output);
 });
