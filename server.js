@@ -205,7 +205,7 @@ app.route("/group/:id").get((req, res) => {
 
 //************************* SWITCH *************************/
 
-app.post("/switch", (req, res) => {
+app.post("/switch", async (req, res) => {
   const plugs = [];
   var output = "";
 
@@ -224,20 +224,15 @@ app.post("/switch", (req, res) => {
     console.log(
       `/home/pi/rcswitch-pi/send ${plugs[key].systemCode} ${plugs[key].unitCode} ${req.body.value}`
     );
-    const executeSwitch = async (cmd) => {
-      const reponse = await exec(cmd, (error, stdout, stderr) => {
+    await exec(
+      `/home/pi/rcswitch-pi/send ${plugs[key].systemCode} ${plugs[key].unitCode} ${req.body.value}`,
+      (error, stdout, stderr) => {
         if (error) {
           console.log(error);
         }
         console.log(stdout ? stdout : stderr);
-      });
-      return response;
-    };
-
-    output = executeSwitch(
-      `/home/pi/rcswitch-pi/send ${plugs[key].systemCode} ${plugs[key].unitCode} ${req.body.value}`
+      }
     );
-    console.log(output);
   }
 
   res.send(output);
