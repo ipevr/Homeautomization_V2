@@ -229,8 +229,10 @@ app.post("/switch", async (req, res) => {
       (error, stdout, stderr) => {
         if (error) {
           console.log(error);
+          return error;
         }
         console.log(stdout ? stdout : stderr);
+        return stdout ? stdout : stderr;
       }
     );
   }
