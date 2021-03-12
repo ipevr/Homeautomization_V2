@@ -218,12 +218,12 @@ app.post("/switch", async (req, res) => {
   }
   console.log("plugs: ", plugs);
 
-  for (let i = 0; i < plugs.length; i++) {
+  for (const plug in plugs) {
     console.log(
-      `/home/pi/rcswitch-pi/send ${plugs[i].systemCode} ${plugs[i].unitCode} ${req.body.value}`
+      `/home/pi/rcswitch-pi/send ${plug.systemCode} ${plug.unitCode} ${req.body.value}`
     );
     output = await execShellCommand(
-      `/home/pi/rcswitch-pi/send ${plugs[i].systemCode} ${plugs[i].unitCode} ${req.body.value}`
+      `/home/pi/rcswitch-pi/send ${plug.systemCode} ${plug.unitCode} ${req.body.value}`
     );
     console.log(output);
   }
