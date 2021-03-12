@@ -1,7 +1,8 @@
 const express = require("express");
+const util = require("util");
 const bodyParser = require("body-parser");
 const fs = require("fs");
-const { exec } = require("child_process");
+const exec = util.promisify(require("child_process").exec);
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -66,16 +67,16 @@ const patchCategories = (id, changedData, categoriesData) => {
   return categoriesData;
 };
 
-const execShellCommand = async (cmd) => {
-  var output;
-  await exec(cmd, (error, stdout, stderr) => {
-    if (error) {
-      console.log(error);
-    }
-    output = stdout ? stdout : stderr;
-  });
-  return output;
-};
+// const execShellCommand = async (cmd) => {
+//   var output;
+//   await exec(cmd, (error, stdout, stderr) => {
+//     if (error) {
+//       console.log(error);
+//     }
+//     output = stdout ? stdout : stderr;
+//   });
+//   return output;
+// };
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
