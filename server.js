@@ -195,6 +195,8 @@ app.route("/group/:id").get((req, res) => {
 
 app.post("/switch", (req, res) => {
   const plugs = [];
+  const error = [];
+  const stderror = [];
 
   if (req.body.plug.plugs) {
     const data = getData("plugs");
@@ -216,17 +218,21 @@ app.post("/switch", (req, res) => {
       (err, stdout, stderr) => {
         if (err) {
           console.log("Something went wrong: ", err);
-          res.send(err);
+          error.push(err);
         }
         if (stderr) {
           console.log("stderr: ", stderr);
-          res.send(stderr);
+          stderror.push(stderr);
         }
         console.log("stdout: ", stdout);
-        res.send(stdout);
       }
     );
   }
+
+  if (error.length > 0 || stderror.length > 0) {
+    res.send("Finished with errors");
+  }
+  res.send("Finished");
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}`));

@@ -4,6 +4,7 @@ import ButtonGroup from "../ButtonGroup";
 
 class PlugActivator extends React.Component {
   onButtonClick = async (event) => {
+    console.log(this.props.plug);
     await data.post("/switch", {
       plug: this.props.plug,
       value: event.target.value,
