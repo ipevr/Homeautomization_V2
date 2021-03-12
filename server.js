@@ -225,6 +225,7 @@ app.post("/switch", (req, res) => {
     output = execShellCommand(
       `/home/pi/rcswitch-pi/send ${plugs[i].systemCode} ${plugs[i].unitCode} ${req.body.value}`
     );
+    console.log(output);
   }
 
   res.send(output);
