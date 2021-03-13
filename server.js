@@ -2,8 +2,7 @@ const express = require("express");
 const util = require("util");
 const bodyParser = require("body-parser");
 const fs = require("fs");
-//const exec = util.promisify(require("child_process").exec);
-const exec = require("child_process").exec;
+const { exec } = require("child_process");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -67,17 +66,6 @@ const patchCategories = (id, changedData, categoriesData) => {
   }
   return categoriesData;
 };
-
-// const execShellCommand = async (cmd) => {
-//   var output;
-//   await exec(cmd, (error, stdout, stderr) => {
-//     if (error) {
-//       console.log(error);
-//     }
-//     output = stdout ? stdout : stderr;
-//   });
-//   return output;
-// };
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -222,44 +210,25 @@ app.post("/switch", (req, res) => {
   }
 
   const processPlugs = (plug) => {
-    console.log(
-      `/home/pi/rcswitch-pi/send ${plug.systemCode} ${plug.unitCode} ${req.body.value}`
-    );
     exec(
       `/home/pi/rcswitch-pi/send ${plug.systemCode} ${plug.unitCode} ${req.body.value}`,
       (error, stdout, stderr) => {
         if (error) {
           console.log(error);
+          return;
         }
         console.log(stdout ? stdout : stderr);
+
         plugs.pop();
         if (plugs.length > 0) {
           processPlugs(plugs[plugs.length - 1]);
+        } else {
+          return;
         }
       }
     );
   };
   processPlugs(plugs[plugs.length - 1]);
-
-  // const switchPlugs = () => {
-  //   for (const key in { ...plugs }) {
-  //     console.log(
-  //       `/home/pi/rcswitch-pi/send ${plugs[key].systemCode} ${plugs[key].unitCode} ${req.body.value}`
-  //     );
-  //     setTimeout(async () => {
-  //       await exec(
-  //         `/home/pi/rcswitch-pi/send ${plugs[key].systemCode} ${plugs[key].unitCode} ${req.body.value}`,
-  //         (error, stdout, stderr) => {
-  //           if (error) {
-  //             console.log(error);
-  //           }
-  //           console.log(stdout ? stdout : stderr);
-  //         }
-  //       );
-  //     }, 2000);
-  //   }
-  // };
-  // switchPlugs();
 
   res.send(output);
 });
