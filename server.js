@@ -206,7 +206,7 @@ app.route("/group/:id").get((req, res) => {
 
 //************************* SWITCH *************************/
 
-app.post("/switch", async (req, res) => {
+app.post("/switch", (req, res) => {
   const plugs = [];
   var output = "";
 
@@ -221,23 +221,23 @@ app.post("/switch", async (req, res) => {
     plugs.push({ systemCode, unitCode });
   }
 
-  for (const key in { ...plugs }) {
-    console.log(
-      `/home/pi/rcswitch-pi/send ${plugs[key].systemCode} ${plugs[key].unitCode} ${req.body.value}`
-    );
-    await exec(
-      `/home/pi/rcswitch-pi/send ${plugs[key].systemCode} ${plugs[key].unitCode} ${req.body.value}`,
-      (error, stdout, stderr) => {
-        if (error) {
-          console.log(error);
-          return error;
+  const switchPlugs = async () => {
+    for (const key in { ...plugs }) {
+      console.log(
+        `/home/pi/rcswitch-pi/send ${plugs[key].systemCode} ${plugs[key].unitCode} ${req.body.value}`
+      );
+      await exec(
+        `/home/pi/rcswitch-pi/send ${plugs[key].systemCode} ${plugs[key].unitCode} ${req.body.value}`,
+        (error, stdout, stderr) => {
+          if (error) {
+            console.log(error);
+          }
+          console.log(stdout ? stdout : stderr);
         }
-        console.log(stdout ? stdout : stderr);
-        return stdout ? stdout : stderr;
-      }
-    );
-    console.log("next one...");
-  }
+      );
+    }
+  };
+  switchPlugs();
 
   res.send(output);
 });
