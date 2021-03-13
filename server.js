@@ -221,23 +221,45 @@ app.post("/switch", (req, res) => {
     plugs.push({ systemCode, unitCode });
   }
 
-  const switchPlugs = async () => {
-    for (const key in { ...plugs }) {
-      console.log(
-        `/home/pi/rcswitch-pi/send ${plugs[key].systemCode} ${plugs[key].unitCode} ${req.body.value}`
-      );
-      await exec(
-        `/home/pi/rcswitch-pi/send ${plugs[key].systemCode} ${plugs[key].unitCode} ${req.body.value}`,
-        (error, stdout, stderr) => {
-          if (error) {
-            console.log(error);
-          }
-          console.log(stdout ? stdout : stderr);
+  const processPlugs = (plug) => {
+    console.log(
+      `/home/pi/rcswitch-pi/send ${plug.systemCode} ${plug.unitCode} ${req.body.value}`
+    );
+    exec(
+      `/home/pi/rcswitch-pi/send ${plug.systemCode} ${plug.unitCode} ${req.body.value}`,
+      (error, stdout, stderr) => {
+        if (error) {
+          console.log(error);
         }
-      );
-    }
+        console.log(stdout ? stdout : stderr);
+        plugs.pop();
+        if (plugs.length > 0) {
+          processPlugs(plugs[plugs.length - 1]);
+        }
+      }
+    );
   };
-  switchPlugs();
+  processPlugs(plugs[plugs.length - 1]);
+
+  // const switchPlugs = () => {
+  //   for (const key in { ...plugs }) {
+  //     console.log(
+  //       `/home/pi/rcswitch-pi/send ${plugs[key].systemCode} ${plugs[key].unitCode} ${req.body.value}`
+  //     );
+  //     setTimeout(async () => {
+  //       await exec(
+  //         `/home/pi/rcswitch-pi/send ${plugs[key].systemCode} ${plugs[key].unitCode} ${req.body.value}`,
+  //         (error, stdout, stderr) => {
+  //           if (error) {
+  //             console.log(error);
+  //           }
+  //           console.log(stdout ? stdout : stderr);
+  //         }
+  //       );
+  //     }, 2000);
+  //   }
+  // };
+  // switchPlugs();
 
   res.send(output);
 });
